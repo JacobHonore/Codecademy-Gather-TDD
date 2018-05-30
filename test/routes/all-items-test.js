@@ -24,23 +24,29 @@ describe('Server path: /', () => {
 
   describe('GET', () => {
     it('renders an item with a title and image', async () => {
+      // Setup
       const item = await seedItemToDatabase();
 
+      // Exercise
       const response = await request(app)
       .get(`/`);
 
+      // Verification
       assert.include(parseTextFromHTML(response.text, '.item-title'), item.title);
       const imageElement = findImageElementBySource(response.text, item.imageUrl);
       assert.equal(imageElement.src, item.imageUrl);
     });
 
     it('renders all items from the database', async () => {
+      // Setup
       const firstItem = await seedItemToDatabase({title: 'Item1'});
       const secondItem = await seedItemToDatabase({title: 'Item2'});
 
+      // Exercise
       const response = await request(app)
         .get(`/`);
 
+      // Verification
       assert.include(parseTextFromHTML(response.text, `#item-${firstItem._id} .item-title`), firstItem.title);
       assert.include(parseTextFromHTML(response.text, `#item-${secondItem._id} .item-title`), secondItem.title);
     });

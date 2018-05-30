@@ -4,6 +4,7 @@ const {buildItemObject} = require('../test-utils');
 describe('User will update from the single items page', () => {
     describe('creates a new item and updates to it', () => {
       it('updated description is rendered', () => {
+        // Setup
         const updateTo = {
           title: 'Something Completely Else',
           description: 'Wow this is also something else, what is happening?',
@@ -11,6 +12,8 @@ describe('User will update from the single items page', () => {
         }
         const item = buildItemObject();
         browser.url('/items/create');
+
+        // Exercise
         browser.setValue('#title-input', item.title);
         browser.setValue('#description-input', item.description);
         browser.setValue('#imageUrl-input', item.imageUrl);
@@ -24,6 +27,8 @@ describe('User will update from the single items page', () => {
         browser.setValue('#description-input', updateTo.description);
         browser.setValue('#imageUrl-input', updateTo.imageUrl);
         browser.click('[type=submit]');
+
+        // Verification
         assert.include(browser.getText('body'), updateTo.title);
         assert.include(browser.getAttribute('body img', 'src'), updateTo.imageUrl);
       });

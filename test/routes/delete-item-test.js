@@ -13,15 +13,23 @@ describe('Server path: /items/:id/delete', () => {
 
   describe('POST', () => {
     it('delete item and check if redirects', async () => {
+      // Setup
       const item = await seedItemToDatabase();
+
+      // Exercise
       const response = await request(app)
       .post(`/items/`+item.id+`/delete`);
+
+      // Verification
       assert.equal(response.status, 302);
       assert.equal(response.headers.location, '/');
     });
     it('renders a 404 if id does not exist', async () => {
+      // Setup
       const response = await request(app)
       .post(`/items/IdThatSurelyDoesNotExist/delete`);
+
+      // Verification
       assert.equal(response.status, 404);
     });
   });
